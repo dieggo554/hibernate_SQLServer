@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class catalog="EmpresaPepa" name="POJOS.Vehiculo" schema="dbo" table="VEHICULO">
+    <id name="nss" type="string">
+      <column length="15" name="NSS"/>
+      <generator class="foreign">
+          <param name="property">empregado</param>
+      </generator>
+    </id>
+    <one-to-one  class="POJOS.Empregado" name="empregado" constrained="true"/>
+    <property name="matricula" type="string">
+      <column length="10" name="Matricula" not-null="true"/>
+    </property>
+    <property name="marca" type="string">
+      <column length="15" name="Marca"/>
+    </property>
+    <property name="modelo" type="string">
+      <column length="25" name="Modelo"/>
+    </property>
+    <property name="datacompra" type="date">
+      <column length="10" name="DataCompra"/>
+    </property>
+  </class>
+</hibernate-mapping>

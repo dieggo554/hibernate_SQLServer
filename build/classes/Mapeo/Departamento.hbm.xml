@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--María José Galán López -->
+<hibernate-mapping>
+    <class name="POJOS.Departamento" table="DEPARTAMENTO" schema="dbo" catalog="EmpresaPepa">
+        <id name="numDepartamento" type="int">
+            <column name="NumDepartamento" />
+            <generator class="increment" />
+        </id>
+        <property name="nomeDepartamento" type="string">
+            <column name="NomeDepartamento" length="25" unique="true" />
+        </property>
+        <many-to-one name="director" class="POJOS.Empregado" 
+                     column="NSSDirector" unique="true" />
+        
+        <set name="proxectos" inverse="true" order-by="NomeProxecto asc">
+            <key>
+                <column name="NumDepartControla" not-null="true" />
+            </key>
+            <one-to-many class="POJOS.Proxecto" />
+        </set>
+        <bag name="empregados" inverse="true" cascade="save-update" >
+            <key>
+                <column name="NumDepartamentoPertenece" not-null="true" />
+            </key>
+            <one-to-many class="POJOS.Empregado" />
+        </bag>
+    
+    </class>
+</hibernate-mapping>

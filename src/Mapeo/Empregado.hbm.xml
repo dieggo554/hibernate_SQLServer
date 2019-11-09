@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="EmpresaPepa" dynamic-insert="true" 
+           dynamic-update="true" name="POJOS.Empregado" schema="dbo" table="EMPREGADO">
+        <id name="nss" type="string">
+            <column length="15" name="NSS"/>
+            <generator class="assigned"/>
+        </id>
+   
+        <property name="nome" type="string">
+            <column length="25" name="Nome" not-null="true"/>
+        </property>
+        <property name="apelido1" type="string">
+            <column length="25" name="Apelido1" not-null="true"/>
+        </property>
+        <property name="apelido2" type="string">
+            <column length="25" name="Apelido2"/>
+        </property>
+        <property name="dataNacemento" type="date">
+            <column length="10" name="DataNacemento"/>
+        </property>
+        <property name="salario" type="double">
+            <column  name="Salario" />
+        </property>
+        <property name="sexo" type="java.lang.Character">
+            <column length="1" name="Sexo"/>
+        </property>
+        <component class="POJOS.Enderezo" name="enderezo">
+            <property name="rua" type="string">
+                <column length="50" name="Rua"/>
+            </property>
+            <property name="numeroCalle" type="int">
+                <column name="Numero_Calle"/>
+            </property>
+            <property name="piso" type="string">
+                <column length="4" name="Piso"/>
+            </property>
+            <property name="cp" type="string">
+                <column length="5" name="CP"/>
+            </property>
+            <property name="localidade" type="string">
+                <column length="20" name="Localidade"/>
+            </property>
+            <property name="provincia" type="string">
+                <column length="15" name="Provincia"/>
+            </property>
+        </component>
+        <set name="horasextras" sort="POJOS.OrdeData" table="HORASEXTRAS">
+            <key>
+                <column length="15" name="NSS" not-null="true"/>
+            </key>
+            <composite-element class="POJOS.HorasExtras">
+                <property column="Data" name="data" not-null="true" type="date"/>
+                <property column="HorasExtras" name="hextras" type="java.lang.Float"/>
+            </composite-element>
+        </set>
+        <set name="telefonos" table="TELEFONO">
+            <key>
+                <column length="15" name="NSS" not-null="true"/>
+            </key>
+            <composite-element class="POJOS.Telefono">
+                <property column="Telefono" name="telefono" type="string"/>
+                <property column="informacion" name="informacion" type="string"/>
+            </composite-element>
+        </set>
+        <one-to-one cascade="save-update,delete" class="POJOS.Vehiculo" name="vehiculo"/>
+        <set cascade="save-update" inverse="true" name="proxectos" table="Empregado_Proxecto">
+            <key>
+                <column name="NSSEmpregado"/>
+            </key>
+            <many-to-many class="POJOS.Proxecto" column="NumProxecto"/>
+        </set>
+        <many-to-one class="POJOS.Empregado" fetch="select" name="jefe">
+            <column length="15" name="NSSSupervisa"/>
+        </many-to-one>
+        <many-to-one class="POJOS.Departamento" fetch="select" name="deptpertenece">
+            <column name="NumDepartamentoPertenece"/>
+        </many-to-one>
+        <set inverse="true" name="supervisados" cascade="save-update">
+            <key>
+                <column length="15" name="NSSSupervisa"/>
+            </key>
+            <one-to-many class="POJOS.Empregado"/>
+        </set>
+    
+   
+    </class>
+</hibernate-mapping>
