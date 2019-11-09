@@ -1,79 +1,83 @@
-package POJOS;
-// Generated 01-abr-2014 21:28:42 by Hibernate Tools 3.2.1.GA
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package POJOs;
 
 import java.util.Date;
 
+/**
+ *
+ * @author usuario
+ */
 
-/** * @author María José Galán López */
-public class Vehiculo implements java.io.Serializable {
-    private String nss;
+//9A1
+public class Vehiculo {
+    private String NSS_Propietario;
     private String matricula;
     private String marca;
     private String modelo;
-    private Date datacompra;
+    private Date dataCompra;
     private Empregado empregado;
 
-    public Vehiculo() {
-    }
-    //Métodos setter e getter
-    
     public Empregado getEmpregado() {
         return empregado;
-    }
-
-    public void setEmp(Empregado emp) {
-        this.empregado = emp;
-    }
-
-    public Vehiculo(String matricula, String marca, String modelo, Date dataCompra) {
-
-        this.matricula = matricula;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.datacompra = dataCompra;
     }
 
     public void setEmpregado(Empregado empregado) {
         this.empregado = empregado;
     }
+    
 
-    public String getNss() {
-        return this.nss;
+    public Vehiculo() {
     }
 
-    public void setNss(String nss) {
-        this.nss = nss;
+    public Vehiculo(String matricula, String marca, String modelo, Date dataCompra) {
+        this.matricula = matricula;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.dataCompra = dataCompra;
     }
 
-    public String getMatricula() {
-        return this.matricula;
+    public void setNSS_Propietario(String NSS_Propietario) {
+        this.NSS_Propietario = NSS_Propietario;
     }
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 
-    public String getMarca() {
-        return this.marca;
-    }
-
     public void setMarca(String marca) {
         this.marca = marca;
-    }
-
-    public String getModelo() {
-        return this.modelo;
     }
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
 
-    public Date getDatacompra() {
-        return this.datacompra;
+    public void setDataCompra(Date dataCompra) {
+        this.dataCompra = dataCompra;
     }
 
-    public void setDatacompra(Date dataCompra) {
-        this.datacompra = dataCompra;
+    public String getNSS_Propietario() {
+        return NSS_Propietario;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public Date getDataCompra() {
+        return dataCompra;
     }
 }

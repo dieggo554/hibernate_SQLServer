@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
- "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- 9A1 -->
 <hibernate-mapping>
-  <class catalog="EmpresaPepa" name="POJOS.Vehiculo" schema="dbo" table="VEHICULO">
-    <id name="nss" type="string">
-      <column length="15" name="NSS"/>
-      <generator class="foreign">
-          <param name="property">empregado</param>
-      </generator>
-    </id>
-    <one-to-one  class="POJOS.Empregado" name="empregado" constrained="true"/>
-    <property name="matricula" type="string">
-      <column length="10" name="Matricula" not-null="true"/>
-    </property>
-    <property name="marca" type="string">
-      <column length="15" name="Marca"/>
-    </property>
-    <property name="modelo" type="string">
-      <column length="25" name="Modelo"/>
-    </property>
-    <property name="datacompra" type="date">
-      <column length="10" name="DataCompra"/>
-    </property>
-  </class>
+    <class name="POJOs.Vehiculo" table="VEHICULO" schema="dbo" catalog="EmpresaHB"
+           dynamic-insert="true" dynamic-update="true"> <!-- inserciones y actualizaciones dinamicas = solo sentencias sql necesarias" -->
+        <id name="NSS_Propietario" type="string">
+            <column name="NSS_Propietario" length="15" />
+            <generator class="foreign" >
+                <param name="property">empregado</param>
+            </generator>
+        </id>
+        <property name="matricula" type="string">
+            <column name="Matricula" length="20" not-null="true" unique="true" />
+        </property>
+        <property name="marca" type="string">
+            <column name="Marca" length="20" not-null="false" unique="false" />
+        </property>
+        <property name="modelo" type="string">
+            <column name="Modelo" length="20" not-null="false" unique="false" />
+        </property>
+        <property name="dataCompra" type="date">
+            <column name="DataCompra" length="10" not-null="false" unique="false" />
+        </property>
+        <one-to-one class="POJOs.Empregado" name="empregado" constrained="true" />
+    </class>
 </hibernate-mapping>

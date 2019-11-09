@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="POJOs.EmpregadoProxecto" table="EMPREGADO_PROXECTO" schema="dbo" catalog="EmpresaHB">
+        <composite-id name="id" class="POJOs.EmpregadoProxectoId">
+            <key-property name="nssEmpregado" type="string">
+                <column name="NSS_empregado"/>
+            </key-property>
+            <key-property name="numProxecto" type="int">
+                <column name="Num_proxecto" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="empregado" class="POJOs.Empregado" update="false" insert="false" fetch="select">
+            <column name="NSS_empregado" />
+        </many-to-one>
+        <many-to-one name="proxecto" class="POJOs.Proxecto" update="false" insert="false" fetch="select">
+            <column name="Num_proxecto" />
+        </many-to-one>
+        <property name="horas" type="java.lang.Integer">
+            <column name="Horas" />
+        </property>
+    </class>
+</hibernate-mapping>

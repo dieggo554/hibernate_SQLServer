@@ -1,29 +1,54 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 01-abr-2014 18:24:59 by Hibernate Tools 3.2.1.GA -->
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25-ene-2019 9:10:28 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="POJOS.Proxecto" table="PROXECTO" schema="dbo" catalog="EmpresaPepa">
+    <class name="POJOs.Proxecto" table="PROXECTO" schema="dbo" catalog="EmpresaHB">
         <id name="numProxecto" type="int">
-            <column name="NumProxecto" />
+            <column name="Num_proxecto" />
             <generator class="increment" />
         </id>
         <property name="nomeProxecto" type="string">
-            <column name="NomeProxecto" length="25" not-null="true" unique="true" />
+            <column name="Nome_proxecto" length="25" not-null="true" unique="true" />
         </property>
         <property name="lugar" type="string">
-            <column name="Lugar" length="25" not-null="true" />
+            <column name="Lugar" length="25" />
         </property>
-        <many-to-one name="numdepartcontrola" class="POJOS.Departamento" fetch="select">
-            <column name="NumDepartControla" not-null="true" />
-        </many-to-one>
         
-        <bag name="empregados" table="Empregado_Proxecto" cascade="save-update" 
-             inverse="false">
+        <!-- 9C1 -->
+        <many-to-one class="POJOs.Departamento" name="departamento" column="Num_departamento"  />
+        
+        <!-- 9D1
+        <set name="empregados" table="EMPREGADO_PROXECTO" inverse="false">
             <key>
-                <column name="NumProxecto" />
+                <column name="Num_proxecto" not-null="true" />
             </key>
-            <many-to-many column="NSSEmpregado" class="POJOS.Empregado" />
+            <many-to-many class="POJOs.Empregado" >
+                <column name="NSS_empregado" not-null="true" /> 
+            </many-to-many>
+        </set>
+        -->
+        
+        
+        <!-- 9D3
+        <set name="empregados" table="EMPREGADO_PROXECTO" inverse="true">
+            <key>
+                <column name="Num_proxecto" not-null="true" />
+            </key>
+            <many-to-many class="POJOs.Empregado" >
+                <column name="NSS_empregado" not-null="true" /> 
+            </many-to-many>
+        </set>
+        -->
+
+        <!-- 9D4 comentado para o exercicio 10 - Herdanza
+        <bag name="empregados" table="EMPREGADO_PROXECTO" cascade="save-update" inverse="false">
+            <key>
+                <column name="Num_proxecto" />
+            </key>
+            <one-to-many class="POJOs.EmpregadoProxecto" />
         </bag>
+        -->
+        
     </class>
 </hibernate-mapping>

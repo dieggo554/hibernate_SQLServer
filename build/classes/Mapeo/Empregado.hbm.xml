@@ -1,89 +1,172 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25-ene-2019 9:10:28 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class catalog="EmpresaPepa" dynamic-insert="true" 
-           dynamic-update="true" name="POJOS.Empregado" schema="dbo" table="EMPREGADO">
+    <class name="POJOs.Empregado" table="EMPREGADO" schema="dbo" catalog="EmpresaHB">
         <id name="nss" type="string">
-            <column length="15" name="NSS"/>
-            <generator class="assigned"/>
+            <column name="NSS" length="15" />
+            <generator class="assigned" />
         </id>
-   
         <property name="nome" type="string">
-            <column length="25" name="Nome" not-null="true"/>
+            <column name="Nome" length="25" not-null="true" />
         </property>
         <property name="apelido1" type="string">
-            <column length="25" name="Apelido1" not-null="true"/>
+            <column name="Apelido_1" length="25" not-null="true" />
         </property>
         <property name="apelido2" type="string">
-            <column length="25" name="Apelido2"/>
+            <column name="Apelido_2" length="25" />
         </property>
         <property name="dataNacemento" type="date">
-            <column length="10" name="DataNacemento"/>
+            <column name="Data_nacemento" length="10" />
         </property>
-        <property name="salario" type="double">
-            <column  name="Salario" />
+        <!-- comentado para exercicio 10 - herencia
+        <property name="salario" type="java.lang.Double">
+            <column name="Salario" precision="53" scale="0" />
         </property>
-        <property name="sexo" type="java.lang.Character">
-            <column length="1" name="Sexo"/>
+        -->
+        <property name="sexo" type="char">
+            <column name="Sexo" length="1" not-null="true" />
         </property>
-        <component class="POJOS.Enderezo" name="enderezo">
-            <property name="rua" type="string">
-                <column length="50" name="Rua"/>
-            </property>
-            <property name="numeroCalle" type="int">
-                <column name="Numero_Calle"/>
-            </property>
-            <property name="piso" type="string">
-                <column length="4" name="Piso"/>
-            </property>
-            <property name="cp" type="string">
-                <column length="5" name="CP"/>
-            </property>
-            <property name="localidade" type="string">
-                <column length="20" name="Localidade"/>
-            </property>
-            <property name="provincia" type="string">
-                <column length="15" name="Provincia"/>
-            </property>
-        </component>
-        <set name="horasextras" sort="POJOS.OrdeData" table="HORASEXTRAS">
-            <key>
-                <column length="15" name="NSS" not-null="true"/>
-            </key>
-            <composite-element class="POJOS.HorasExtras">
-                <property column="Data" name="data" not-null="true" type="date"/>
-                <property column="HorasExtras" name="hextras" type="java.lang.Float"/>
-            </composite-element>
-        </set>
+        
+        <!-- 7A3
         <set name="telefonos" table="TELEFONO">
             <key>
-                <column length="15" name="NSS" not-null="true"/>
+                <column name="NSS" not-null="true" />
             </key>
-            <composite-element class="POJOS.Telefono">
-                <property column="Telefono" name="telefono" type="string"/>
-                <property column="informacion" name="informacion" type="string"/>
+            <element column="telefono" type="string" not-null="true" />
+        </set>
+        -->
+        
+        <!-- 7A7 
+        <set name="telefonos" table="TELEFONO">
+            <key>
+                <column name="NSS" not-null="true" />
+            </key>
+            <composite-element class="POJOs.Telefono" >
+                <property name="telefono" column="telefono" type="string" not-null="true" />
+                <property name="informacion" column="informacion" type="string" />
             </composite-element>
         </set>
-        <one-to-one cascade="save-update,delete" class="POJOS.Vehiculo" name="vehiculo"/>
-        <set cascade="save-update" inverse="true" name="proxectos" table="Empregado_Proxecto">
+        -->
+        
+        <!--** MAP puede tener un valor mas que SET sin utiliar un objeto **
+                ** Si tuviesemos un campo mas debemos utilizar COMPOSITE-ELEMENT ** -->
+        <!-- 7B1 
+        <map name="telefonos" table="TELEFONO">
             <key>
-                <column name="NSSEmpregado"/>
+                <column name="NSS" not-null="true" />
             </key>
-            <many-to-many class="POJOS.Proxecto" column="NumProxecto"/>
-        </set>
-        <many-to-one class="POJOS.Empregado" fetch="select" name="jefe">
-            <column length="15" name="NSSSupervisa"/>
-        </many-to-one>
-        <many-to-one class="POJOS.Departamento" fetch="select" name="deptpertenece">
-            <column name="NumDepartamentoPertenece"/>
-        </many-to-one>
-        <set inverse="true" name="supervisados" cascade="save-update">
+            <map-key column="telefono" type="string" /> 
+            <element column="informacion" type="string"/>
+
+        </map>
+        -->
+        
+        <!-- 7C1 
+        <bag name="telefonos" table="TELEFONO">
             <key>
-                <column length="15" name="NSSSupervisa"/>
+                <column name="NSS" not-null="true" />
             </key>
-            <one-to-many class="POJOS.Empregado"/>
+            <composite-element class="POJOs.Telefono" >
+                <property name="telefono" column="telefono" type="string" not-null="true" />
+                <property name="informacion" column="informacion" type="string" />
+            </composite-element>
+        </bag>
+        -->
+        
+        <!-- 7D1 
+        <list name="telefonos" table="TELEFONO">
+            <key>
+                <column name="NSS" not-null="true" />
+            </key>
+            <list-index column="id" />
+            <composite-element class="POJOs.Telefono" >
+                <property name="telefono" column="telefono" type="string" not-null="true" />
+                <property name="informacion" column="informacion" type="string" />
+            </composite-element>
+        </list>
+        -->
+        
+        <!-- 7E3 ojo con la fecha y su formato
+        <idbag name="horas" table="HORASEXTRA">
+            <collection-id type="java.lang.Integer" column="id">
+                <generator class="increment" />
+            </collection-id>
+            <key>
+                <column name="NSS" not-null="true" />
+            </key>
+            <composite-element class="POJOs.HorasExtra" >
+                <property name="horas" column="horas" type="string" not-null="true" />
+                <property name="data" column="data" type="date" /> 
+            </composite-element>
+        </idbag>
+        -->
+        
+        <!-- 9A1 -->
+        <one-to-one class="POJOs.Vehiculo" name="vehiculo" cascade="all"/>
+        
+        <!-- 9C1 
+        <bag name="proxectos" table="EMPREGADO_PROXECTO" inverse="true" >
+            <key>
+                <column name="NSS_empregado" not-null="true" />
+            </key>
+            <many-to-many entity-name="POJOs.Proxecto">
+                <column name="Num_proxecto" not-null="true" />
+            </many-to-many>
+        </bag>
+        -->
+        
+        
+        <!-- 9D3 
+        <idbag name="proxectos" table="EMPREGADO_PROXECTO" >
+            <collection-id type="java.lang.Integer" column="id_empregado_proxecto">
+                <generator class="increment" />
+            </collection-id>
+            <key>
+                <column name="NSS_empregado" not-null="true" />
+            </key>
+            <many-to-many class="POJOs.Proxecto" column="Num_proxecto" />
+        </idbag>
+        -->
+        
+        <!-- 9D4 -->
+        <set name="proxectos" table="EMPREGADO_PROXECTO" cascade="save-update" inverse="true">
+            <key>
+                <column name="NSS_empregado" />
+            </key>
+            <one-to-many class="POJOs.EmpregadoProxecto" />
         </set>
-    
-   
+        
+        <!-- ejercicio 10 -->
+        <joined-subclass name="POJOs.EmpregadoFixo" table="EmpregadoFixo">
+            <key column="NSS"/>
+            <property name="categoria" type="string">
+                <column name="categoaria" />
+            </property>
+            <property name="dataalta" type="date">
+                <column name="dataalta" />
+            </property>
+            <property name="salario" type="float">
+                <column name="salario" />
+            </property>
+        </joined-subclass>
+        
+        <joined-subclass name="POJOs.EmpregadoTemporal" table="EmpregadoTemporal">
+            <key column="NSS"/>
+            <property name="datainicio" type="date">
+                <column name="datainicio" />
+            </property>
+            <property name="datafin" type="date">
+                <column name="datafin" />
+            </property>
+            <property name="costehora" type="float">
+                <column name="costehora" />
+            </property>
+            <property name="numhoras" type="float">
+                <column name="numhoras" />
+            </property>
+        </joined-subclass>
+        
     </class>
 </hibernate-mapping>

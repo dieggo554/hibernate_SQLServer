@@ -1,31 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!--María José Galán López -->
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25-ene-2019 9:10:28 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="POJOS.Departamento" table="DEPARTAMENTO" schema="dbo" catalog="EmpresaPepa">
+    <class name="POJOs.Departamento" table="DEPARTAMENTO" schema="dbo" catalog="EmpresaHB">
         <id name="numDepartamento" type="int">
-            <column name="NumDepartamento" />
+            <column name="Num_departamento" />
             <generator class="increment" />
         </id>
         <property name="nomeDepartamento" type="string">
-            <column name="NomeDepartamento" length="25" unique="true" />
+            <column name="Nome_departamento" length="25" not-null="true" unique="true" />
         </property>
-        <many-to-one name="director" class="POJOS.Empregado" 
-                     column="NSSDirector" unique="true" />
         
-        <set name="proxectos" inverse="true" order-by="NomeProxecto asc">
+        <!-- 9B1 comentado para exercicio 10 - herdanza    
+        <many-to-one class="POJOs.Empregado" name="empregado" column="Director" unique="true"/>
+        -->
+        
+        <!-- 9C1 -->
+        <set name="proxectos" table="PROXECTO" inverse="true">
             <key>
-                <column name="NumDepartControla" not-null="true" />
+                <column name="Num_departamento" />
             </key>
-            <one-to-many class="POJOS.Proxecto" />
+            <one-to-many class="POJOs.Proxecto"/>
         </set>
-        <bag name="empregados" inverse="true" cascade="save-update" >
-            <key>
-                <column name="NumDepartamentoPertenece" not-null="true" />
-            </key>
-            <one-to-many class="POJOS.Empregado" />
-        </bag>
-    
     </class>
 </hibernate-mapping>
